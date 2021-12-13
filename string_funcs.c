@@ -61,7 +61,7 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
                 printf("~");
             }
             for(int i = left; i < right+1; i++) {
-                printf("%s", t[i]);
+                printf("%c", t[i]);
             }
             sum += gematria_helper(t[++right]) - gematria_helper(t[left++]);
             while (gematria_helper(t[left]) == 0) {
