@@ -19,9 +19,9 @@ int gematria_helper(char x) {
 //gematria
 void func1(char w[WORD + 1], char t[TXT + 1]) {
 
-    int i, left, right, target, flag, sum;
+    int left, right, target, flag, sum;
     target = 0;
-    for (i=0; i < strlen(w); i++) { //finds gematria
+    for (int i=0; i < strlen(w); i++) { //finds gematria
         target += gematria_helper(w[i]);
     }
     left = 0;
@@ -61,7 +61,7 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
                 printf("~");
             }
             for(int i = left; i < right+1; i++) {
-                printf("%c", t[i]);
+                printf("%s", t[i]);
             }
             sum += gematria_helper(t[++right]) - gematria_helper(t[left++]);
             while (gematria_helper(t[left]) == 0) {
@@ -74,8 +74,8 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
     }
 }
 
-reverses the string
-char *reverse(char *str) {
+//reverses the string
+char* reverse(char *str) {
     int l;
     char *beginning_ptr, *end_ptr, temp;
 
@@ -90,4 +90,5 @@ char *reverse(char *str) {
         *beginning_ptr = *end_ptr;
         *end_ptr = temp;
     }
+    return 0;
 }
