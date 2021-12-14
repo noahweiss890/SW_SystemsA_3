@@ -14,13 +14,20 @@ int main() {
         strcat(word, &c);
         c = getchar();
     }
+    c = getchar();
     while(c != '~') {
         strcat(txt, &c);
         c = getchar();
     }
+//    c = getchar();
+//    while(c != EOF) {
+//        c = getchar();
+//    }
+
 
     printf("Gematria Sequences: ");
     func1(word, txt);
+    putchar('\n');
 
 //    printf("Gematria Sequences: ");
 //    func2(word, txt);
