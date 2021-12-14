@@ -3,11 +3,11 @@
     #define TXT 1024
     #define WORD 30
 
-
     int gematria_helper(char x);
+    char atbash_helper(char x);
     void reverse(char* str);
-    void atbash(char *str);
     void func1(char w[WORD+1], char t[TXT+1]);
-
+    void func2(char w[WORD+1], char t[TXT+1]);
+    void func3(char w[WORD+1], char t[TXT + 1]);
 
 #endif
