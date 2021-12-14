@@ -16,6 +16,39 @@ int gematria_helper(char x) {
     }
 }
 
+
+char atbash_helper(char x){
+    if(x >= 'A' && x <= 'Z'){
+
+        return (char)(('Z' - gematria_helper(x)) + 1);
+    }
+    if(x >= 'a' && x <= 'z'){
+        return (char)(('z' - gematria_helper(x)) + 1);
+    }
+    else{
+        return x;
+    }
+}
+
+//reverses the string
+int reverse(char *str) {
+    int l;
+    char *beginning_ptr, *end_ptr, temp;
+
+    l = (int)(strlen(str));
+    beginning_ptr = str;
+    end_ptr = str;
+    for (int i = 0; i < l - 1; i++) {
+        end_ptr++;
+    }
+    for (int j = 0; j < l / 2; j++) {
+        temp = *beginning_ptr;
+        *beginning_ptr = *end_ptr;
+        *end_ptr = temp;
+    }
+    return 0;
+}
+
 //gematria
 void func1(char w[WORD + 1], char t[TXT + 1]) {
 
@@ -74,21 +107,21 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
     }
 }
 
-//reverses the string
-char* reverse(char *str) {
-    int l;
-    char *beginning_ptr, *end_ptr, temp;
+void func2(char w[WORD + 1], char t[TXT + 1]){
 
-    l = strlen(str);
-    beginning_ptr = str;
-    end_ptr = str;
-    for (int i = 0; i < l - 1; i++) {
-        end_ptr++;
+    char atbsh_w[WORD + 1], atbsh_w_rev[WORD + 1];
+    for (int i = 0; i < strlen(atbsh_w); i++) {
+        atbsh_w[i] = atbash_helper(w[i]);
     }
-    for (int j = 0; j < l / 2; j++) {
-        temp = *beginning_ptr;
-        *beginning_ptr = *end_ptr;
-        *end_ptr = temp;
+    reverse(w);
+    for (int i = 0; i < atbsh_w_rev; i++) {
+        atbsh_w_rev[i] = atbash_helper(w[i]);
     }
-    return 0;
 }
+
+void func3(char w[WORD + 1], char t[TXT + 1]){
+    char* temp[WORD + 1];
+    
+}
+
+
