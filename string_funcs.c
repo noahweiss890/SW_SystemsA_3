@@ -139,23 +139,27 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
     }
 }
 
-//reverses the string
-char *reverse(char *str) {
-    int l;
-    char *beginning_ptr, *end_ptr, temp;
+void func2(char w[WORD + 1], char t[TXT + 1]) {
+    char *start = t, *runner, forward[WORD + 1], backward[WORD + 1];
+    strcpy(forward, w);
+    strcpy(backward, w);
+    atbash(forward);
+    reverse(atbash(backward));
+    while(start < t + strlen(t)) {
 
-    l = strlen(str);
-    beginning_ptr = str;
-    end_ptr = str;
-    for (int i = 0; i < l - 1; i++) {
-        end_ptr++;
     }
-    for (int j = 0; j < l / 2; j++) {
-        temp = *beginning_ptr;
-        *beginning_ptr = *end_ptr;
-        *end_ptr = temp;
+
+
+}
+
+//reverses the string
+void reverse(char *str) {
+    char temp;
+    for (char *start = str, *end = str + strlen(str) - 1; start < end; start++, end--) {
+        temp = *start;
+        *start = *end;
+        *end = temp;
     }
-    return 0;
 }
 
 void func3(char w[WORD + 1], char t[TXT + 1]){

@@ -5,7 +5,8 @@
 
 
     int gematria_helper(char x);
-    char* reverse(char* str);
+    void reverse(char* str);
+    void atbash(char *str);
     void func1(char w[WORD+1], char t[TXT+1]);
 
 
