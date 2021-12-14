@@ -15,6 +15,39 @@ int gematria_helper(char x) {
     return 0;
 }
 
+
+char atbash_helper(char x){
+    if(x >= 'A' && x <= 'Z'){
+
+        return (char)(('Z' - gematria_helper(x)) + 1);
+    }
+    if(x >= 'a' && x <= 'z'){
+        return (char)(('z' - gematria_helper(x)) + 1);
+    }
+    else{
+        return x;
+    }
+}
+
+//reverses the string
+int reverse(char *str) {
+    int l;
+    char *beginning_ptr, *end_ptr, temp;
+
+    l = (int)(strlen(str));
+    beginning_ptr = str;
+    end_ptr = str;
+    for (int i = 0; i < l - 1; i++) {
+        end_ptr++;
+    }
+    for (int j = 0; j < l / 2; j++) {
+        temp = *beginning_ptr;
+        *beginning_ptr = *end_ptr;
+        *end_ptr = temp;
+    }
+    return 0;
+}
+
 //gematria
 void func1(char w[WORD + 1], char t[TXT + 1]) {
     int left, right, target = 0, flag, sum;
@@ -124,3 +157,10 @@ char *reverse(char *str) {
     }
     return 0;
 }
+
+void func3(char w[WORD + 1], char t[TXT + 1]){
+    char* temp[WORD + 1];
+
+}
+
+
