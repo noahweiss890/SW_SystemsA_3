@@ -37,6 +37,7 @@ char atbash_helper(char x) {
 
 /**
  * This function prints out a list of words that from the text that have an equal gematria to the given word.
+ * It at any point checks if the gematria of letters in the range is too big or too small and moves the range accordingly forward. When it equals it is printed.
  * @param w is a single word
  * @param t is a text
  */
@@ -97,31 +98,31 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
         if(sum == target) { // if the current sum equals the target
             char str[right - left + 1];
             str[0] = '\0';
-            for (int i = left; i < right + 1; i++) {
+            for (int i = left; i < right + 1; i++) { // put all of the chars between lef t and right in str to be printed
                 str[i - left] = t[i];
             }
             str[right-left+1] = '\0';
-            if (flag) {
+            if (flag) { // if its not the first time printing an answer
                 printf("~%s", str);
-            } else {
+            } else { // if its the first time printing an answer
                 printf("%s", str);
                 flag = 1;
             }
             int next = right + 1;
-            while (gematria_helper(t[next]) == 0) {
+            while (gematria_helper(t[next]) == 0) { // while the next char is not a letter
                 if (next == strlen(t) - 1) {
                     next = -1;
                     break;
                 }
                 next++;
             }
-            if (next != -1) {
-                right = next;
-                sum += gematria_helper(t[right]);
+            if (next != -1) { // if a letter is found
+                right = next; // move the right bound to next
+                sum += gematria_helper(t[right]); // add the gematria value to sum
             } else {
-                sum -= gematria_helper(t[left]);
+                sum -= gematria_helper(t[left]); // take off the gematria of the the left bound
                 left++;
-                while (gematria_helper(t[left]) == 0) {
+                while (gematria_helper(t[left]) == 0) { // while its not a letter
                     left++;
                 }
             }
@@ -129,28 +130,33 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
     }
 }
 
+/**
+ * This function prints all of the sequences in the given text that equal the atbash of the given word or the reverse of it.
+ * @param w is a single word
+ * @param t is a text
+ */
 void func2(char w[WORD + 1], char t[TXT + 1]) {
     char forward[WORD + 1], backward[WORD + 1];
     int flag = 0;
     strcpy(forward, w);
     strcpy(backward, w);
-    reverse(backward);
-    for(int i = 0; i < strlen(w); i++) {
+    reverse(backward); // reverse the word
+    for(int i = 0; i < strlen(w); i++) { // puts the atbash of the letters in w in forward and backwards
         forward[i] = atbash_helper(forward[i]);
         backward[i] = atbash_helper(backward[i]);
     }
     for(char *start = t; start < t + strlen(t); start++) {
-        if (strcmp(forward, backward) || start[0] == forward[0]) {
+        if (strcmp(forward, backward) || start[0] == forward[0]) { // if w is a palindrome or the first letter is equal to the first letter in forward
             int i, count = 0;
             for (i = 0; i < strlen(start) && count < strlen(w); i++) {
-                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') {
-                    if (start[i] != forward[count]) {
+                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') { // if the char at i isnt a whitespace
+                    if (start[i] != forward[count]) { // if the char is different than forward
                         break;
                     }
                     count++;
                 }
             }
-            if (count == strlen(w)) {
+            if (count == strlen(w)) { // if the count is the length of w then we found a match
                 char str[i + 1];
                 str[0] = '\0';
                 strncat(str, start, i);
@@ -164,17 +170,17 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
                 continue;
             }
         }
-        if (start[0] == backward[0]) {
+        if (start[0] == backward[0]) { // if the first letter is equal to the first letter in backward
             int i, count = 0;
             for (i = 0; i < strlen(start) && count < strlen(w); i++) {
-                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') {
-                    if (start[i] != backward[count]) {
+                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') { // if the char at i isnt a whitespace
+                    if (start[i] != backward[count]) { // if the char is different than forward
                         break;
                     }
                     count++;
                 }
             }
-            if (count == strlen(w)) {
+            if (count == strlen(w)) { // if the count is the length of w then we found a match
                 char str[i + 1];
                 str[0] = '\0';
                 strncat(str, start, i);
