@@ -1,3 +1,6 @@
+// Noah Weiss 326876786
+// Rashi Pachino 345174478
+
 #ifndef SW_SYSTEMS_HW3_STRING_FUNCS_H
     #define SW_SYSTEMS_HW3_STRING_FUNCS_H
     #define TXT 1024

@@ -1,3 +1,6 @@
+// Noah Weiss 326876786
+// Rashi Pachino 345174478
+
 #include <stdio.h>
 #include <string.h>
 #include "string_funcs.h"
