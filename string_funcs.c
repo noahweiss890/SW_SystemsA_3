@@ -5,16 +5,25 @@
 #define TXT 1024
 #define WORD 30
 
-//finds the gematria of the char
+/**
+ *
+ * @param x is a char
+ * @return the gematria value of the given char, if not an alphabetic letter returns 0
+ */
 int gematria_helper(char x) {
-    if (x >= 'A' && x <= 'Z') {
+    if (x >= 'A' && x <= 'Z') { // if upper case latter
         return (x - 'A') + 1;
-    } else if (x >= 'a' && x <= 'z') {
+    } else if (x >= 'a' && x <= 'z') { // if lower case latter
         return (x - 'a') + 1;
     }
-    return 0;
+    return 0; // if not an alphabetic letter
 }
 
+/**
+ *
+ * @param x is a char
+ * @return if x is an alphabetic letter, return the atbash version of the letter (A -> Z, b -> y...)
+ */
 char atbash_helper(char x) {
     if(x >= 'A' && x <= 'Z'){
         return (('Z' - gematria_helper(x)) + 1);
@@ -25,66 +34,73 @@ char atbash_helper(char x) {
     return x;
 }
 
-//gematria
+
+/**
+ * This function prints out a list of words that from the text that have an equal gematria to the given word.
+ * @param w is a single word
+ * @param t is a text
+ */
 void func1(char w[WORD + 1], char t[TXT + 1]) {
     int left = 0, right = 0, target = 0, flag = 0, sum;
-    for (int i = 0; i < strlen(w); i++) { //finds gematria of word
+    for (int i = 0; i < strlen(w); i++) { //finds gematria of w
         target += gematria_helper(w[i]);
     }
     sum = gematria_helper(t[0]);
     int last = strlen(t)-1;
-    while(gematria_helper(t[last]) == 0 && last > -1) {
+    while(gematria_helper(t[last]) == 0 && last > -1) { // to know how many chars at the end are not possible answers
         last--;
     }
-    if(last == -1) {
+    if(last == -1) { // if there are no alphabetic letters in t
         return;
     }
-    while (left < last || right < last) {
-        if(sum < target) {
-            int next = right + 1;
-            while(gematria_helper(t[next]) == 0) {
+    while (left < last || right < last) { // while the pointers are in bounds
+        if(sum < target) { // if the current sum is too small
+            int next = right + 1; // add the next char to my sum
+            while(gematria_helper(t[next]) == 0) { // while the next char is not a letter
                 if(next == strlen(t) - 1) {
                     next = -1;
                     break;
                 }
-                next++;
+                next++; // move the right bound forward
             }
             if(next != -1) {
-                right = next;
-                sum += gematria_helper(t[right]);
+                right = next; // add next to my potential answer
+                sum += gematria_helper(t[right]); // add the gematria value to sum
             }
             else {
-                break;
+                break; // right went out of bounds
             }
         }
-        else if(sum > target) {
+        else if(sum > target) { // if the current sum is too big
             if(left < right) {
-                sum -= gematria_helper(t[left]);
-                left++;
-                while(gematria_helper(t[left]) == 0) {
+                sum -= gematria_helper(t[left]); // take off the left bound from sum
+                left++; // move the left bound forward
+                while(gematria_helper(t[left]) == 0) { // move forward while left isn't pointing at a letter
                     left++;
                 }
             }
-            else {
-                int next = right + 1;
-                while(gematria_helper(t[next]) == 0) {
+            else { // if left equals the same
+                int next = right + 1; // used to move forward until a letter is found
+                while(gematria_helper(t[next]) == 0) { // while the next char is not a letter
                     if(next == strlen(t) - 1) {
                         next = -1;
                         break;
                     }
                     next++;
                 }
-                if(next != -1) {
-                    right = next;
-                    sum += gematria_helper(t[right]);
+                if(next != -1) { // if a letter is found
+                    right = next; // move the right bound to next
+                    sum += gematria_helper(t[right]); // add the gematria value to sum
                 }
             }
         }
-        if(sum == target) {
+        if(sum == target) { // if the current sum equals the target
             char str[right - left + 1];
+            str[0] = '\0';
             for (int i = left; i < right + 1; i++) {
                 str[i - left] = t[i];
             }
+            str[right-left+1] = '\0';
             if (flag) {
                 printf("~%s", str);
             } else {
@@ -136,7 +152,9 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
             }
             if (count == strlen(w)) {
                 char str[i + 1];
+                str[0] = '\0';
                 strncat(str, start, i);
+                str[i+1] = '\0';
                 if (flag) {
                     printf("~%s", str);
                 } else {
@@ -158,7 +176,9 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
             }
             if (count == strlen(w)) {
                 char str[i + 1];
+                str[0] = '\0';
                 strncat(str, start, i);
+                str[i+1] = '\0';
                 if (flag) {
                     printf("~%s", str);
                 } else {
