@@ -33,15 +33,14 @@ int main() {
     printf("Gematria Sequences: ");
     func1(word, txt);
     putchar('\n');
-
+//
     printf("Atbash Sequences: ");
     func2(word, txt);
     putchar('\n');
 
-//
+
     printf("Anagram Sequences: ");
     func3(word, txt);
-    putchar('\n');
 
     return 0;
 }

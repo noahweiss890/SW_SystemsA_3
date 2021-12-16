@@ -171,62 +171,67 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
 }
 
 void func3(char w[WORD + 1], char t[TXT + 1]) {
-    printf("\n********\nNEW ROUND\n********\n");
-    char first = ' ';
-    int countF, count, flag = 0;
+    char first;
+    int countF, fInWord, flag = 0;
     for(char *start = t; start < t + strlen(t); start++) {
-        int i;
-        for (i = 0; i < strlen(start); i++) {
-            if(start[i] != ' ' && start[i] != '\n' && start[i] != '\t') {
-                if (strchr(w, start[i]) == NULL) {
-                    break;
-                }
-                if(first == ' ') {
-                    first = start[i];
-                    countF = 1;
-                    count = 0;
-                    for(int k = 0; k < strlen(w); k++) {
-                        if(w[k] == first){
-                            countF++;
+        if (*start != ' ' && *start != '\n' && *start != '\t') {
+            int i;
+            first = '\0';
+            for (i = 0; i < strlen(start); i++) {
+                if (start[i] != ' ' && start[i] != '\n' && start[i] != '\t') {
+                    if (strchr(w, start[i]) == NULL) {
+                        break;
+                    }
+                    if (first == '\0') {
+                        first = start[i];
+                        countF = 1;
+                        fInWord = 0;
+                        for (int k = 0; k < strlen(w); k++) {
+                            if (w[k] == first) {
+                                fInWord++;
+                            }
+                        }
+                    } else if (start[i] == first) {
+                        countF++;
+                        if (countF > fInWord) {
+                            break;
                         }
                     }
                 }
-                else if(start[i] == first) {
-                    countF++;
-                    if(countF > count) {
+            }
+            if (countF <= fInWord) {
+                char ans[i + 1];
+                ans[0] = '\0';
+                strncpy(ans, start, i);
+                ans[i] = '\0';
+                int k;
+                char *res;
+                for (k = 0; k < strlen(w); k++) {
+                    res = strchr(ans, w[k]);
+                    if (res == NULL) {
                         break;
+                    }
+                    *res = ' ';
+                }
+                if (res != NULL) {
+                    int last = strlen(ans) - 1;
+                    while (ans[last] != ' ') {
+                        last--;
+                    }
+                    strncpy(ans, start, last + 1);
+                    ans[last + 1] = '\0';
+                    while(ans[last] == ' ' || ans[last] == '\t' || ans[last] == '\n') {
+                        ans[last--] = '\0';
+                    }
+//                    printf("last ans: %s", ans);
+                    if (flag == 0) {
+                        flag = -1;
+                        printf("%s", ans);
+                    } else {
+                        printf("~%s", ans);
                     }
                 }
             }
-        }
-        printf("\nSTART: %s\n", start);
-        printf("\ni: %d\n", i);
-        char ans[2];
-        printf("\nANS BEFORE: %s\n", ans);
-        strncpy(ans, start, i);
-        printf("\nANS: %s\n", ans);
-        int k;
-        for(k = 0; k < strlen(w); k++) {
-            char *res = strchr(ans, w[k]);
-            if(res == NULL) {
-                break;
-            }
-            *res = ' ';
-        }
-        if(k < strlen(w)) {
-            break;
-        }
-        int last = (int)strlen(ans) - 1;
-        while(ans[last] != ' ') {
-            last--;
-        }
-        ans[last+1] = '\0';
-        if(flag == 0) {
-            flag = -1;
-            printf("%s", ans);
-        }
-        else {
-            printf("~%s", ans);
         }
     }
 }
