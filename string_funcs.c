@@ -17,14 +17,12 @@ int gematria_helper(char x) {
 
 char atbash_helper(char x) {
     if(x >= 'A' && x <= 'Z'){
-        return (char)(('Z' - gematria_helper(x)) + 1);
+        return (('Z' - gematria_helper(x)) + 1);
     }
     if(x >= 'a' && x <= 'z'){
-        return (char)(('z' - gematria_helper(x)) + 1);
+        return (('z' - gematria_helper(x)) + 1);
     }
-    else{
-        return x;
-    }
+    return x;
 }
 
 //gematria
@@ -116,15 +114,60 @@ void func1(char w[WORD + 1], char t[TXT + 1]) {
 }
 
 void func2(char w[WORD + 1], char t[TXT + 1]) {
-    char *start = t, *runner, forward[WORD + 1], backward[WORD + 1];
+    char forward[WORD + 1], backward[WORD + 1];
+    int flag = 0;
     strcpy(forward, w);
     strcpy(backward, w);
-    atbash(forward);
-    reverse(atbash(backward));
-    while(start < t + strlen(t)) {
-
+    reverse(backward);
+    for(int i = 0; i < strlen(w); i++) {
+        forward[i] = atbash_helper(forward[i]);
+        backward[i] = atbash_helper(backward[i]);
     }
-
+    for(char *start = t; start < t + strlen(t); start++) {
+        if (strcmp(forward, backward) || start[0] == forward[0]) {
+            int i, count = 0;
+            for (i = 0; i < strlen(start) && count < strlen(w); i++) {
+                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') {
+                    if (start[i] != forward[count]) {
+                        break;
+                    }
+                    count++;
+                }
+            }
+            if (count == strlen(w)) {
+                char str[i + 1];
+                strncat(str, start, i);
+                if (flag) {
+                    printf("~%s", str);
+                } else {
+                    printf("%s", str);
+                    flag = 1;
+                }
+                continue;
+            }
+        }
+        if (start[0] == backward[0]) {
+            int i, count = 0;
+            for (i = 0; i < strlen(start) && count < strlen(w); i++) {
+                if (start[i] != ' ' && start[i] != '\t' && start[i] != '\n') {
+                    if (start[i] != backward[count]) {
+                        break;
+                    }
+                    count++;
+                }
+            }
+            if (count == strlen(w)) {
+                char str[i + 1];
+                strncat(str, start, i);
+                if (flag) {
+                    printf("~%s", str);
+                } else {
+                    printf("%s", str);
+                    flag = 1;
+                }
+            }
+        }
+    }
 }
 
 void func3(char w[WORD + 1], char t[TXT + 1]) {

@@ -8,32 +8,40 @@
 int main() {
     char word[WORD + 1];
     char txt[TXT + 1];
+//    char fulltext[TXT + 1];
     char c;
-    c = getchar();
+    c = (char)getchar();
     while(c != ' ' && c != '\n' && c != '\t') {
         strcat(word, &c);
-        c = getchar();
+        c = (char)getchar();
     }
-    c = getchar();
+    c = (char)getchar();
     while(c != '~') {
         strcat(txt, &c);
-        c = getchar();
+        c = (char)getchar();
     }
-//    c = getchar();
-//    while(c != EOF) {
-//        c = getchar();
+//    gets(word);
+//    gets(fulltext);
+//    char *end = strchr(fulltext, '~');
+//    int i = 0;
+//    while(fulltext + i < end) {
+//        txt[i] = fulltext[i];
+//        i++;
 //    }
-
+//    printf("%s", txt);
 
     printf("Gematria Sequences: ");
     func1(word, txt);
     putchar('\n');
 
-//    printf("Gematria Sequences: ");
-//    func2(word, txt);
+    printf("Atbash Sequences: ");
+    func2(word, txt);
+    putchar('\n');
+
 //
-//    printf("Gematria Sequences: ");
-//    func3(word, txt);
+    printf("Anagram Sequences: ");
+    func3(word, txt);
+    putchar('\n');
 
     return 0;
 }
