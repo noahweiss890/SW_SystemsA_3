@@ -128,8 +128,64 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
 }
 
 void func3(char w[WORD + 1], char t[TXT + 1]) {
-    char* temp[WORD + 1];
-
+    printf("\n********\nNEW ROUND\n********\n");
+    char first = ' ';
+    int countF, count, flag = 0;
+    for(char *start = t; start < t + strlen(t); start++) {
+        int i;
+        for (i = 0; i < strlen(start); i++) {
+            if(start[i] != ' ' && start[i] != '\n' && start[i] != '\t') {
+                if (strchr(w, start[i]) == NULL) {
+                    break;
+                }
+                if(first == ' ') {
+                    first = start[i];
+                    countF = 1;
+                    count = 0;
+                    for(int k = 0; k < strlen(w); k++) {
+                        if(w[k] == first){
+                            countF++;
+                        }
+                    }
+                }
+                else if(start[i] == first) {
+                    countF++;
+                    if(countF > count) {
+                        break;
+                    }
+                }
+            }
+        }
+        printf("\nSTART: %s\n", start);
+        printf("\ni: %d\n", i);
+        char ans[2];
+        printf("\nANS BEFORE: %s\n", ans);
+        strncpy(ans, start, i);
+        printf("\nANS: %s\n", ans);
+        int k;
+        for(k = 0; k < strlen(w); k++) {
+            char *res = strchr(ans, w[k]);
+            if(res == NULL) {
+                break;
+            }
+            *res = ' ';
+        }
+        if(k < strlen(w)) {
+            break;
+        }
+        int last = (int)strlen(ans) - 1;
+        while(ans[last] != ' ') {
+            last--;
+        }
+        ans[last+1] = '\0';
+        if(flag == 0) {
+            flag = -1;
+            printf("%s", ans);
+        }
+        else {
+            printf("~%s", ans);
+        }
+    }
 }
 
 //reverses the string
