@@ -199,29 +199,29 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
     }
 }
 /**
- * returns all anagram minimum sequences containing only letters from the specified word
+ * returns all anagram minimum sequences containing only the letters from the specified word
  * @param w is a single word
  * @param t is a text
  */
 void func3(char w[WORD + 1], char t[TXT + 1]) {
-    char *start = t;
-    char tempWord[WORD + 1];
-    int flag = 0;
+    char *start = t; // the starting point
+    char tempWord[WORD + 1]; // to be used for checking if a potential string is an anagram
+    int flag = 0; // to know if its the first time printing an answer
     while(start < t + strlen(t)) {
-        if (*start != ' ' && *start != '\n' && *start != '\t') { 
+        if (*start != ' ' && *start != '\n' && *start != '\t') { // only go in if the first char isn't a white space
             strcpy(tempWord, w);
             int i = 0, count = 0;
             for (i = 0; i < strlen(start); i++) {
                 if (start[i] != ' ' && start[i] != '\n' && start[i] != '\t') {
-                    if (strchr(tempWord, start[i]) == NULL) {
-                        break;
+                    if (strchr(tempWord, start[i]) == NULL) { // checks if the char is in tempWord and return a pointer to the char in tempWord, if its doesnt exist returns null
+                        break;  // when the current char isnt apart of the anagram of w
                     }
-                    *(strchr(tempWord, start[i])) = ' ';
-                    count++;
+                    *(strchr(tempWord, start[i])) = ' '; // change the char that was found in tempWord to ' ' (spacebar)
+                    count++; // count the amount of letters found so far
                 }
             }
-            if(count == strlen(w)) {
-                char ans[i + 1];
+            if(count == strlen(w)) { // if count equals the length of w then we found an answer
+                char ans[i + 1]; // to hold the answer
                 ans[0] = '\0';
                 strncpy(ans, start, i);
                 ans[i] = '\0';
