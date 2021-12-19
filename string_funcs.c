@@ -200,72 +200,45 @@ void func2(char w[WORD + 1], char t[TXT + 1]) {
 }
 /**
  * returns all anagram minimum sequences containing only letters from the specified word
- * @param w
- * @param t
+ * @param w is a single word
+ * @param t is a text
  */
 void func3(char w[WORD + 1], char t[TXT + 1]) {
-    char first;
-    int countF, fInWord, flag = 0;
-    for(char *start = t; start < t + strlen(t); start++) { //loops through the text
-        if (*start != ' ' && *start != '\n' && *start != '\t') {
-            int i; //to keep track of i
-            first = '\0';
+    char *start = t;
+    char tempWord[WORD + 1];
+    int flag = 0;
+    while(start < t + strlen(t)) {
+        if (*start != ' ' && *start != '\n' && *start != '\t') { 
+            strcpy(tempWord, w);
+            int i = 0, count = 0;
             for (i = 0; i < strlen(start); i++) {
                 if (start[i] != ' ' && start[i] != '\n' && start[i] != '\t') {
-                    if (strchr(w, start[i]) == NULL) {
+                    if (strchr(tempWord, start[i]) == NULL) {
                         break;
-                    } //at this point we have a sequence that needs to be checked if it meets all the requirements
-                    if (first == '\0') { //checking first char in sequence to make sure it does not ruin the minimality of the sequence
-                        first = start[i];
-                        countF = 1;
-                        fInWord = 0;
-                        for (int k = 0; k < strlen(w); k++) { //counts how many times the first char is in the given word
-                            if (w[k] == first) {
-                                fInWord++;
-                            }
-                        }
-                    } else if (start[i] == first) {
-                        countF++;
-                        if (countF > fInWord) { //first letter ruins minimality, therefore the sequence is not an answer
-                            break;
-                        }
                     }
+                    *(strchr(tempWord, start[i])) = ' ';
+                    count++;
                 }
             }
-            if (countF <= fInWord) { //checking if sequence contains every letter in given word
+            if(count == strlen(w)) {
                 char ans[i + 1];
                 ans[0] = '\0';
                 strncpy(ans, start, i);
                 ans[i] = '\0';
-                int k;
-                char *res;
-                for (k = 0; k < strlen(w); k++) { //turns chars in copied sequence to ' ' if that char is found in given word
-                    res = strchr(ans, w[k]);
-                    if (res == NULL) {
-                        break;
-                    }
-                    *res = ' ';
+                int last = strlen(ans) - 1;
+                while(ans[last] == ' ' || ans[last] == '\t' || ans[last] == '\n') { //checks for extra spaces at the end
+                    ans[last--] = '\0';
                 }
-                if (res != NULL) { //checks the right edge of the sequence for minimality
-                    int last = strlen(ans) - 1;
-                    while (ans[last] != ' ') {
-                        last--;
-                    }
-                    strncpy(ans, start, last + 1);
-                    ans[last + 1] = '\0';
-                    while(ans[last] == ' ' || ans[last] == '\t' || ans[last] == '\n') { //checks for extra spaces at the end
-                        ans[last--] = '\0';
-                    }
-                    //seuqence passes all requirements, therefore is printed
-                    if (flag == 0) {
-                        flag = -1;
-                        printf("%s", ans);
-                    } else {
-                        printf("~%s", ans);
-                    }
+                //sequence passes all requirements, therefore is printed
+                if (flag == 0) {
+                    flag = -1;
+                    printf("%s", ans);
+                } else {
+                    printf("~%s", ans);
                 }
             }
         }
+        start++;
     }
 }
 
