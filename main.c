@@ -10,16 +10,18 @@
 
 int main() {
     char word[WORD + 1];
+    word[0] = '\0';
     char txt[TXT + 1];
+    txt[0] = '\0';
     char c;
     c = (char)getchar();
     while(c != ' ' && c != '\n' && c != '\t') { // while the char inputted isnt a whitespace
-        strcat(word, &c);
+        strncat(word, &c, 1);
         c = (char)getchar();
     }
     c = (char)getchar();
     while(c != '~') { // input chars until a '~' is inputted
-        strcat(txt, &c);
+        strncat(txt, &c, 1);
         c = (char)getchar();
     }
 
